@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Appointment History</h2>
+
+{% if appointments %}
+    <table class="appointment-table">
+        <thead>
+            <tr>
+                <th>Appointment ID</th>
+                <th>Professional Name</th>
+                <th>Specialization</th>
+                <th>Appointment Date</th>
+                <th>Slot Time</th>
+                <th>Status</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.appointment_id }}</td>
+                <td>{{ appointment.professional_name }}</td>
+                <td>{{ appointment.specialization }}</td>
+                <td>{{ appointment.appointment_date }}</td>
+                <td>{{ appointment.slot_time }}</td>
+                <td>{{ appointment.status }}</td>
+                <td>{{ appointment.notes }}</td>
+                <td>
+                    {% if appointment.status != 'cancelled' %}
+                        <form action="{{ url_for('appointment_routes.cancel_appointment', appointment_id=appointment.appointment_id) }}" method="POST" style="display: inline;">
+                            <button type="submit" onclick="return confirm('Are you sure you want to cancel this appointment?');" class="btn btn-danger">Cancel</button>
+                        </form>
+                    {% else %}
+                        <em>N/A</em>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No appointments found.</p>
+{% endif %}
+
+<style>
+    .appointment-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    .appointment-table th, .appointment-table td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+    .appointment-table th {
+        background-color: #4CAF50; /* Green */
+        color: white;
+    }
+    .appointment-table tr:nth-child(even) {
+        background-color: #f2f2f2; /* Light gray */
+    }
+    .appointment-table tr:hover {
+        background-color: #ddd; /* Darker gray on hover */
+    }
+    .btn {
+        background-color: #4CAF50; /* Green */
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .btn-danger {
+        background-color: #f44336; /* Red */
+    }
+    .btn-danger:hover {
+        background-color: #c62828; /* Darker red on hover */
+    }
+</style>
+
+{% endblock %}

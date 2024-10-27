@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Available Slots for {{ professional_fname }} {{ professional_lname }}</h2>
+
+{% if available_slots %}
+    <table>
+        <thead>
+            <tr>
+                <th>Slot Time</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for slot in available_slots %}
+            <tr>
+                <td>{{ slot.slot_time }}</td>
+                <td>
+                    <form action="{{ url_for('appointment_routes.book_appointment') }}" method="POST" style="display:inline;">
+                        <input type="hidden" name="professional_id" value="{{ professional_id }}">
+                        <input type="hidden" name="appointment_date" value="{{ appointment_date }}">
+                        <input type="hidden" name="slot_id" value="{{ slot.slot_id }}">
+                        <button type="submit">Book Appointment</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No available slots for this date.</p>
+{% endif %}
+{% endblock %}
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    button {
+        padding: 8px 12px;
+        background-color: #4CAF50; /* Green */
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #45a049; /* Darker green */
+    }
+
+    h2 {
+        color: #333;
+    }
+
+    p {
+        color: #666;
+    }
+</style>

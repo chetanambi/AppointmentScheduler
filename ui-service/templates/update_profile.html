@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c; /* Green */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #4cae4c; /* Darker Green */
+        }
+
+        .alert {
+            color: red;
+            margin-bottom: 20px;
+            list-style-type: none;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: #5bc0de; /* Light Blue */
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Profile</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages and not messages|length == 0 %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }} alert">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST" action="{{ url_for('user_routes.update_profile', user_id=user.user_id) }}">
+            <label>First Name:</label>
+            <input type="text" name="first_name" value="{{ user.first_name }}" required>
+            
+            <label>Last Name:</label>
+            <input type="text" name="last_name" value="{{ user.last_name }}" required>
+            
+            <label>Email:</label>
+            <input type="email" name="email" value="{{ user.email }}" required>
+            
+            <label>Phone:</label>
+            <input type="text" name="phone" value="{{ user.phone }}" required>
+            
+            <label>Location:</label>
+            <input type="text" name="location" value="{{ user.location }}">
+
+            <button type="submit">Update Profile</button>
+        </form>
+        
+        <p><a href="{{ url_for('user_routes.profile', user_id=user.user_id) }}">Back to Profile</a></p>
+    </div>
+</body>
+</html>

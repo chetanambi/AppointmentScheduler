@@ -1,4 +1,0 @@
-Flask
-Flask-SQLAlchemy
-Werkzeug==2.2.3
-mysqlclient
